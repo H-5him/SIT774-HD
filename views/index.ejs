@@ -1,0 +1,252 @@
+<%- include('header'); -%>
+
+    <header>
+        <div class="container-fluid bg-primary-subtle">
+            <div class="col-sm-8 mx-auto text-center py-2">
+                <h1 class="display-4">dKin Caps</h1>
+                <p class="lead ">A young and inspiring organisation whose
+                    primary purpose is to bring you the highest quality headwear available.</p>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <h3 class="mt-3" style="text-align: center;">dKin Caps: Product Management System </h3>
+            <h3 class="mt-3"> Overview</h3>
+
+            <p>
+                It is a simple dynamic web application designed for managing product details for dKin Caps. The website
+                interacts with a cloud NoSQL based database
+                called <strong>MongoDB</strong>. This website allows to <strong>add, view, delete and update</strong>
+                data stored in the database. This database system has many
+                advantages such as scalibility, flexibility and ease of management. Since it is a cloud based database,
+                the data can be accessed from different locations.
+                MongoDB stores data in a JSON like format allowing for dynamic schema design.
+            </p>
+            <hr>
+            <h3 class="mt-3"> Features Implemented</h3>
+
+            <p>
+                The sytem performs CRUD operations with the database. The features include:
+            <ul>
+                <li><strong>Create</strong> - It will create or add new product to the database. A form is provided to
+                    create new products.</li>
+                <li><strong>Read</strong> - A table is displayed showing all the products in the databse along with
+                    their price and quantity available.</li>
+                <li><strong>Update</strong> - A form is provided to update price or quantity of the existing products,
+                    which will then be updated on the database</li>
+                <li><strong>Delete</strong> - A button is provided to delete products, which will then remove the data
+                    from the database.</li>
+            </ul>
+            </p>
+            <hr>
+            <h3 class="mt-3"> Technical Details & Basic Setup</h3>
+
+            <p>
+            <ul>
+                <li><strong>Frontend</strong> : The front end is build using EJS template rendered by Node.js servers.
+                </li>
+                <li><strong>Backend</strong> : The back end is build using Node.js servers which interacts with MongoDB.
+                </li>
+                <li><strong>Database</strong> : The database used is MongoDB database which stores product information.
+                </li>
+            </ul>
+
+
+            <p style="font-weight: bold;"> Initial Installation</p>
+            <ul>
+                <strong>Install Packages</strong><br>
+                <li>Express : They are installed for creating server side routes and handling HTTPS requests and
+                    responses
+                    <br>
+                    <span style="color: grey;font-weight: bold;">"npm install express"</span>
+                </li>
+                <li>Mongoose : They are ODM (Object Data Modelling) library for MongoDB for interacting with database
+                    <br>
+                    <span style="color: grey;font-weight: bold;">"npm install mongoose"</span>
+                </li>
+                <li>
+                    Ejs : They are templating engine for dynamically generating HTML pages on the server.
+                    <br>
+                    <span style="color: grey;font-weight: bold;">"npm install ejs"</span>
+                </li>
+                <li>
+                    Morgan : They are logging library.
+                    <br>
+                    <span style="color: grey;font-weight: bold;">"npm install morgan"</span>
+                </li>
+            </ul>
+            </p>
+            <hr>
+            <h3 class="mt-3"> Procedure</h3>
+
+            <p>
+                The procedure to set up the program is as below:
+            <ul>
+                <li>Set up the server suing Node.js by installing all the packages mentioned above.</li>
+                <br>
+                <li><strong>Database</strong> - Make an account in <a
+                        href="https://www.mongodb.com/products/platform/atlas-database">MongoDB Atlas</a>.Create a new
+                    cluster and database as required. Keep your IP address whitelisted inorder to acces it. In the
+                    cluster, there will be a connection string which should be added to your Node.js to establish access
+                    with the database.
+                    <br>
+                    <ul>
+                        <span style="font-weight: bold;">The setup in Node.js: </span>
+                        <li>Defining schema: Making a new file in a folder called models and name it product.js
+                            This contains the setup of database.
+                            <br>
+                            "<span style="color: grey;font-weight: bold;"> const productdb = new mongoose.Schema({
+                                productname:{type: String,required: true}, price: {type: Number,required: true}, stock:
+                                {type: Number,default: 0}
+                                }); </span>"
+                        </li>
+                        <li>Add the product.js to the server index.js
+                            <br>
+                            "<span style="color: grey;font-weight: bold;">const product =
+                                require('./models/product');</span>"
+                        </li>
+                        <li>add a constant to add the connection string of database to the server side.
+                            <br>
+                            "<span style="color: grey;font-weight: bold;">const db ='connection string'</span>"
+                        </li>
+                        <li>Connect to the server using mongoose
+                            <br>
+                            "<span style="color: grey;font-weight: bold;">mongoose.connect(db,{useNewUrlParser: true,
+                                useUnifiedTopology: true});</span>"
+                        </li>
+                        <li>Add error handlers wherever required.</li>
+                    </ul>
+                </li>
+                <br>
+                <li>After successfully connecting with the database, interaction is doing using mainly
+                    <strong>GET</strong> and <strong>POST</strong> methods.</li>
+                <br>
+                <li>We also use <strong>async</strong> and <strong>await</strong> feature of JavaScript in the CRUD
+                    operations. They are essential in managing asynchronous operations i.e, When you interact with the
+                    database, the operations dont happen together in series. They allow the system to wait till the
+                    operation is carried out. They are essential in making the system robust and responsive. </li>
+                <br>
+                <li>
+                    <strong>Webpage</strong> - The webpage is built using ejs to make it dynamic. It consist of the form
+                    through which the user can add a product to the database. The data in the database are dynamically
+                    viewed in the webpage in a table. The table also concist of a from to update the price and quantity
+                    of the products and a button to delete the product.
+                </li>
+            </ul>
+            </p>
+            <hr>
+            <h3 style="text-align: center;">Product</h3>
+            <p>
+                Products are entered here to be added into the database created in MongoDB.The <strong>POST</strong>
+                route in server node.js accepts the form data and creates a new product item in the mongoDB database.
+            </p>
+            <br>
+            <div id="formContainer">
+
+                <form action="/addproduct" method="post" id="postproduct">
+                    <div class="row mb-3">
+                        <label for="inputFirstname" class="col-sm-2 pt-2 col-form-label-sm text-sm-end">
+                            Product name:
+                        </label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="inputFirstname" name="productname" required>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="inputSurname" class="col-sm-2 pt-2 col-form-label-sm text-sm-end">Price :</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control" id="inputSurname" name="price" required>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="inputSurname" class="col-sm-2 pt-2 col-form-label-sm text-sm-end">Quantity :</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control" id="inputSurname" name="quantity" required>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-sm mx-auto d-flex justify-content-center ">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                </form>
+            </div>
+        </div>
+        <br>
+        <br>
+        <hr>
+        <br>
+        <br>
+        <div id="container">
+            <h3 style="text-align: center;">Product List</h3>
+            <br>
+            <p>View the product details in the database.</p>
+
+            <p>The <strong>GET</strong> route retrieve all the products from the database and renders the home file with
+                the product data. </p>
+            <br>
+            <p>The <strong>POST</strong> route finds the product by name and updates its details using
+                "<strong>findOneAndUpdate</strong>"</p>
+            <br>
+            <p>Another <strong>POST</strong> route deletes product from the database using
+                "<strong>findOneAndDelete</strong>"</p>
+            <br>
+            <br>
+            <br>
+            <table class="table table-bordered">
+                <thead style="color: aqua;">
+                    <tr>
+                        <th>
+                            Product
+                        </th>
+                        <th>
+                            Price
+                        </th>
+                        <th>
+                            Quantity
+                        </th>
+                        <th>
+                            Delete
+                        </th>
+                        <th>
+                            Update
+                        </th>
+                    </tr>
+                </thead>
+                <% products.forEach(product=> { %>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <%= product.productname %>
+                            </td>
+                            <td>
+                                <%= product.price %>
+                            </td>
+                            <td>
+                                <%= product.stock %>
+                            </td>
+                            <td>
+                                <form action="/deleteproduct" method="post">
+                                    <input type="hidden" name="name" value="<%= product.productname %>">
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                            </td>
+                            <td>
+                                <form action="/updateproduct" method="post">
+                                    <input type="hidden" name="name" value="<%= product.productname %>">
+                                    <label for="price">Price</label>
+                                    <input type="number" name="price" value="<%= product.price %>">
+                                    <label for="qty">Qty</label>
+                                    <input type="number" name="qty" value="<%= product.stock %>">
+                                    <button type="submit" class="btn btn-success">Update</button>
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <% }) %>
+            </table>
+        </div>
+    </main>
+
+    <%- include('footer'); -%>
