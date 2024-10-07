@@ -2,6 +2,7 @@
 const express = require('express');
 // Additional package for logging of HTTP requests/responses
 const morgan = require('morgan');
+// additional package for mongoDB
 const mongoose = require('mongoose');
 const app = express();
 const port = 3000;
@@ -25,7 +26,7 @@ app.get('/', async (req, res) => {
    //fetch products from the database
    const products = await product.find();
    if (products) {
-      res.render('index', { title: 'dKin Cap Sales', products: products });
+      res.render('index', { title: 'dKin Product Management', products: products });
    } else {
       res.status(500).json({ message: err.message });
    }
